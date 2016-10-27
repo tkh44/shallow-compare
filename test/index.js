@@ -1,12 +1,11 @@
 /* eslint-env mocha */
 import expect from 'expect'
-import { h, render, rerender, Component } from 'preact'
+import { h, render, rerender, Component as PreactComponent } from 'preact'
+import { Component as ReactComponent, createElement } from 'react'
+import ReactTestUtils from 'react-addons-test-utils'
 import shallowCompare from '../src/index'
-import undom from 'undom'
 
-Object.assign(global, undom())
-
-describe('Shallow Compare', () => {
+describe('Preact', () => {
   let scratch
 
   before(() => {
@@ -27,7 +26,7 @@ describe('Shallow Compare', () => {
     let renderCalls = 0
     let setState
 
-    class ShallowTestComponent extends Component {
+    class ShallowTestComponent extends PreactComponent {
       constructor (props, context) {
         super(props, context)
 
@@ -58,16 +57,16 @@ describe('Shallow Compare', () => {
     setState({ color: 'blue' })
     rerender()
     expect(renderCalls).toBe(2)
-    setState({ size: 'large' })
+    setState({ color: 'red' })
     rerender()
     expect(renderCalls).toBe(3)
   })
 
-  it.only('only renders props changes', () => {
+  it('only renders props changes', () => {
     let renderCalls = 0
     let setState
 
-    class ShallowTestComponent extends Component {
+    class ShallowTestComponent extends PreactComponent {
       shouldComponentUpdate (nextProps, nextState) {
         console.log()
         console.log('prevProps', JSON.stringify(this.props))
@@ -83,7 +82,7 @@ describe('Shallow Compare', () => {
       }
     }
 
-    class Container extends Component {
+    class Container extends PreactComponent {
       constructor (props) {
         super(props)
         this.state = { color: 'red' }
@@ -105,8 +104,79 @@ describe('Shallow Compare', () => {
     setState({ color: 'blue' })
     rerender()
     expect(renderCalls).toBe(2)
-    setState({ size: 'large' })
+    setState({ color: 'red' })
     rerender()
+    expect(renderCalls).toBe(3)
+  })
+})
+
+describe('React', () => {
+  it('only renders state changes', () => {
+    let renderCalls = 0
+
+    class ShallowTestComponent extends ReactComponent {
+      constructor (props, context) {
+        super(props, context)
+        this.state = { color: 'red' }
+      }
+
+      shouldComponentUpdate (nextProps, nextState) {
+        return shallowCompare(this, nextProps, nextState)
+      }
+
+      render () {
+        ++renderCalls
+        return createElement('div', null, 'test')
+      }
+    }
+
+    const instance = ReactTestUtils.renderIntoDocument(createElement(ShallowTestComponent))
+    expect(renderCalls).toBe(1)
+    instance.setState({ color: 'blue' })
+    expect(renderCalls).toBe(2)
+    instance.setState({ color: 'blue' })
+    expect(renderCalls).toBe(2)
+    instance.setState({ color: 'red' })
+    expect(renderCalls).toBe(3)
+  })
+
+  it('only renders props changes', () => {
+    let renderCalls = 0
+
+    class ShallowTestComponent extends ReactComponent {
+      shouldComponentUpdate (nextProps, nextState) {
+        console.log()
+        console.log('prevProps', JSON.stringify(this.props))
+        console.log('nextProps', JSON.stringify(nextProps))
+        console.log('shouldComponentUpdate', shallowCompare(this, nextProps, nextState))
+        return shallowCompare(this, nextProps, nextState)
+      }
+
+      render () {
+        ++renderCalls
+        console.log('render', this.props.color)
+        return createElement('div', {}, this.props.color, this.props.children)
+      }
+    }
+
+    class Container extends ReactComponent {
+      constructor (props) {
+        super(props)
+        this.state = { color: 'red' }
+      }
+
+      render () {
+        return createElement(ShallowTestComponent, { color: this.state.color }, 'test')
+      }
+    }
+
+    const instance = ReactTestUtils.renderIntoDocument(createElement(Container))
+    expect(renderCalls).toBe(1)
+    instance.setState({ color: 'blue' })
+    expect(renderCalls).toBe(2)
+    instance.setState({ color: 'blue' })
+    expect(renderCalls).toBe(2)
+    instance.setState({ color: 'red' })
     expect(renderCalls).toBe(3)
   })
 })
