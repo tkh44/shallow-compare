@@ -11,7 +11,7 @@ describe('Preact Shallow Compare', () => {
   let scratch
 
   before(() => {
-    scratch = document.createElement('div');
+    scratch = document.createElement('div')
     (document.body || document.documentElement).appendChild(scratch)
   })
 

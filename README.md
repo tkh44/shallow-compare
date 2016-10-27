@@ -1,36 +1,28 @@
 # shallow-compare
 
-[![npm package][npm-badge]][npm]
+[![npm version](https://badge.fury.io/js/shallow-compare.svg)](https://badge.fury.io/js/shallow-compare)
 
 Stand alone shallowCompare for use in libraries that support shouldComponentUpdate
 
-##Preact Example
+##Example
 ```javascript
-import { h, Component } from 'preact';
-import shallowCompare from 'preact-shallow-compare';
-
+// preact
+import { Component, h } from 'preact'
+import shallowCompare from 'shallow-compare'
 
 class Foo extends Component {
 
-    constructor(props) {
+  constructor (props) {
+    super(props);
+    this.state = { color: 'blue' }
+  }
 
-        super(props);
+  shouldComponentUpdate (nextProps, nextState) {
+    return shallowCompare(this, nextProps, nextState)
+  }
 
-        this.state = { color: 'blue' };
-    }
-
-    shouldComponentUpdate(nextProps, nextState) {
-
-        return shallowCompare(this, nextProps, nextState);
-    }
-
-    render() {
-
-        return h('div', null, this.state.color);
-    }
-
+  render () {
+    return h('div', null, this.state.color)
+  }
 }
 ```
-
-[npm-badge]: https://img.shields.io/npm/v/npm-package.svg?style=flat-square
-[npm]: https://www.npmjs.org/package/npm-package
