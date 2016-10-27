@@ -41,12 +41,12 @@
     "expect": "^1.20.2",
     "mocha": "^3.1.2",
     "npm-run-all": "^3.1.1",
-    "preact": "4.5.1",
+    "preact": "*",
     "rollup": "^0.36.3",
     "rollup-plugin-babel": "^2.6.1",
     "standard": "^8.5.0",
     "uglify-js": "^2.7.4",
-    "undom": "^0.3.0"
+    "undom": "git+https://github.com/developit/undom.git#master"
   },
   "author": "Kye Hohenberger",
   "homepage": "https://github.com/tkh44/shallow-compare",
