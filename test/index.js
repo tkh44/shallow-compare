@@ -166,7 +166,7 @@ describe('React', () => {
       }
 
       render () {
-        return createElement(ShallowTestComponent, { color: this.state.color }, 'test')
+        return createElement(ShallowTestComponent, { color: this.state.color }, 'test', 'test2')
       }
     }
 
