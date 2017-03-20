@@ -4,7 +4,16 @@
 
 Stand alone shallowCompare for use in libraries that support shouldComponentUpdate
 
-##Example
+## API
+
+shallowCompare(instance, nextProps, nextState)
+
+ **arguments**
+ - instance (_component instance_) - the component's instance (`this`)
+ - nextProps (_object_) - the next props
+ - nextState (_object_) - the next state
+ 
+## Example
 ```javascript
 // preact
 import { Component, h } from 'preact'
