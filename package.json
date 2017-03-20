@@ -1,6 +1,6 @@
 {
   "name": "shallow-compare",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "Stand alone shallowCompare for use in libraries that support shouldComponentUpdate",
   "main": "lib/index.js",
   "module": "es/index.js",
