@@ -2,10 +2,6 @@
 import expect from 'expect'
 import { h, render, rerender, Component } from 'preact'
 import shallowCompare from '../src/index'
-// import undom from 'undom'
-
-// const document = undom()
-// global.document = document
 
 describe('Preact Shallow Compare', () => {
   let scratch
