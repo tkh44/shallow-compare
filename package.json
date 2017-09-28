@@ -19,9 +19,6 @@
     "test:watch": "nwb test-react --server"
   },
   "dependencies": {},
-  "peerDependencies": {
-    "react": "15.x"
-  },
   "devDependencies": {
     "nwb": "0.15.x",
     "preact": "^7.2.0",
@@ -31,7 +28,10 @@
   "author": "",
   "homepage": "",
   "license": "MIT",
-  "repository": "",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/tkh44/shallow-compare"
+  },
   "keywords": [
     "react-component"
   ]
